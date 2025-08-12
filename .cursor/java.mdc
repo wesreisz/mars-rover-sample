@@ -1,0 +1,45 @@
+---
+description: This is a rule file for java development on the project
+globs:
+alwaysApply: true
+---
+
+# Cursor Rules — Java 17 + Gradle
+
+These rules guide the AI to generate consistent, production-quality Java 17 code using Gradle, with strong tests, formatting, and a clean, modular structure.
+
+---
+
+## Language & Platform
+- Use **Java 17** language features; avoid preview features.
+- Prefer **records** for immutable data carriers; prefer **enums** for closed sets (e.g., directions, flags).
+- Keep code **deterministic** and free of side effects in core logic; no network or file I/O in domain code.
+- Console apps read from **STDIN** and write to **STDOUT/STDERR** only.
+
+## Build System (Gradle)
+- Use **Gradle Wrapper**; include `gradlew`, `gradlew.bat`, and `gradle/wrapper` files.
+- Apply plugins: `java`, `application`, `jacoco`, `com.diffplug.spotless`, `com.github.johnrengelman.shadow`.
+- Configure **Java toolchain** to 17.
+- Target fat JAR via **Shadow** plugin; set `Main-Class` in `application`.
+- Keep production dependencies **minimal** (prefer none for a kata/console tool).
+- Test dependencies: **JUnit 5**, **AssertJ** (optionally **Mockito** if needed).
+
+## Project Structure
+- Packages:
+  - `com.example.mars.app` (CLI + Main)
+  - `com.example.mars.domain` (Plateau, Position, Heading, Rover)
+  - `com.example.mars.parse` (InputParser)
+  - `com.example.mars.exec` (Mission, MissionRunner, RoverPlan, BoundaryPolicy)
+- Exceptions in `com.example.mars.domain`: `ParseException`, `OutOfBoundsException`, `InvalidInstructionException`.
+- No logging framework; use `System.out`/`System.err` for console interactions only in `app`.
+
+## CLI & Contracts
+- Input contract:
+  - First line: plateau upper-right coords `<maxX> <maxY>` (lower-left is `0 0`).
+  - Then repeated rover blocks:
+    - `<x> <y> <heading>` where heading ∈ `{N,E,S,W}`
+    - `<instructions>` where instructions ∈ `[LRM]+`
+- Flags (long only):
+  - `--strict` (default): reject out-of-bounds sequences (fail validation).
+  - `--ignore-oob`: skip o
+
