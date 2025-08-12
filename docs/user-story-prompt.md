@@ -1,4 +1,4 @@
-I have provided you with a user story @feature1.md. Please analyze the features and User Storie and implement as follows:
+I have provided you with a user story. Please analyze the features and User Storie and implement as follows:
 
 1. First, outline your understanding of:
    - The specific requirements from this story
@@ -28,4 +28,3 @@ I have provided you with a user story @feature1.md. Please analyze the features 
 Constraints:
 - Maintain consistency with existing codebase
 - Follow the cursor rules
-- Do not add any unit tests at this time
