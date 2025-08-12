@@ -1,6 +1,6 @@
 ---
 description: This is a rule file for java development on the project
-globs:
+globs: 
 alwaysApply: true
 ---
 

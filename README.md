@@ -30,3 +30,34 @@ Expected Output:
 1 3 N
 
 5 1 E
+
+---
+
+Build and Run (Java 17 + Gradle Wrapper)
+
+Requirements:
+- Java 21 via SDKMAN (21.0.2-open)
+
+Java setup with SDKMAN:
+```bash
+sdk env install   # reads .sdkmanrc and installs java=21.0.2-open if missing
+sdk env use       # switches current shell to 21.0.2-open
+java -version     # verify 21.0.2-open
+```
+
+Format, static checks, and build:
+```bash
+./gradlew spotlessCheck check
+```
+
+Create runnable fat JAR:
+```bash
+./gradlew shadowJar
+```
+
+Run the app:
+```bash
+java -jar build/libs/mars-rovers-all.jar
+# Expected output:
+# Mars Rovers App Initialized
+```
