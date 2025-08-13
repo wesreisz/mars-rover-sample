@@ -50,5 +50,3 @@ class PositionTest {
         Arguments.of(4, -5, Direction.W, 3, -5));
   }
 }
-
-

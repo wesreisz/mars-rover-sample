@@ -18,5 +18,3 @@ public final class Move {
     return new Position(newX, newY, position.heading());
   }
 }
-
-
