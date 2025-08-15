@@ -79,6 +79,17 @@ public final class Main {
       // Scenario 1: Parse CLI arguments
       CliArguments cli = CliArguments.parse(args);
 
+      // Show prompt if reading from System.in interactively (not piped)
+      if (inputStream == System.in && System.console() != null) {
+        System.err.println("Please input your plateau and rover commands using:");
+        System.err.println("Line 1: Plateau upper-right coordinates (e.g., '5 5')");
+        System.err.println("For each rover:");
+        System.err.println("  Line N: Starting position (e.g., '1 2 N')");
+        System.err.println("  Line N+1: Instructions (e.g., 'LMLMLMLMM')");
+        System.err.println("Press Ctrl+D (EOF) when finished.");
+        System.err.println();
+      }
+
       // Read all input from input stream
       List<String> inputLines = readFromStream(inputStream);
 
@@ -88,7 +99,8 @@ public final class Main {
       // Execute mission with appropriate boundary policy
       List<Position> finalPositions = MissionRunner.run(mission, cli.getBoundaryPolicy());
 
-      // Print final positions to STDOUT
+      // Print final positions to STDOUT with prefix
+      System.out.println("Rover(s) final position is: ");
       for (Position position : finalPositions) {
         System.out.println(position.x() + " " + position.y() + " " + position.heading());
       }
@@ -121,16 +133,6 @@ public final class Main {
       System.err.println("Unexpected Error: " + e.getMessage());
       return 1;
     }
-  }
-
-  /**
-   * Reads all lines from STDIN until EOF is reached.
-   *
-   * @return list of input lines from STDIN
-   * @throws IOException if reading from STDIN fails
-   */
-  private static List<String> readStdin() throws IOException {
-    return readFromStream(System.in);
   }
 
   /**
