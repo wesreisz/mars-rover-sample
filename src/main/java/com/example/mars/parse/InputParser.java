@@ -15,14 +15,14 @@ import java.util.List;
  * requirements.
  *
  * <p>The expected input format is:
+ *
  * <ol>
- *   <li>First non-empty line: plateau upper-right coordinates as "maxX maxY"</li>
+ *   <li>First non-empty line: plateau upper-right coordinates as "maxX maxY"
  *   <li>Repeated rover blocks consisting of:
  *       <ul>
- *         <li>Rover start position: "x y heading" where heading ∈ {N,E,S,W}</li>
- *         <li>Rover instructions: sequence of L, R, M commands</li>
+ *         <li>Rover start position: "x y heading" where heading ∈ {N,E,S,W}
+ *         <li>Rover instructions: sequence of L, R, M commands
  *       </ul>
- *   </li>
  * </ol>
  */
 public final class InputParser {
@@ -48,9 +48,8 @@ public final class InputParser {
     }
 
     // Filter out empty lines
-    List<String> nonEmptyLines = lines.stream()
-        .filter(line -> line != null && !line.trim().isEmpty())
-        .toList();
+    List<String> nonEmptyLines =
+        lines.stream().filter(line -> line != null && !line.trim().isEmpty()).toList();
 
     if (nonEmptyLines.isEmpty()) {
       throw new ParseException("Input cannot be empty");
@@ -60,7 +59,8 @@ public final class InputParser {
     Plateau plateau = parsePlateau(nonEmptyLines.get(0));
 
     // Parse rover plans from remaining lines
-    List<RoverPlan> roverPlans = parseRoverPlans(nonEmptyLines.subList(1, nonEmptyLines.size()), plateau);
+    List<RoverPlan> roverPlans =
+        parseRoverPlans(nonEmptyLines.subList(1, nonEmptyLines.size()), plateau);
 
     return new Mission(plateau, roverPlans);
   }
@@ -74,7 +74,7 @@ public final class InputParser {
    */
   private static Plateau parsePlateau(String plateauLine) throws ParseException {
     String[] parts = plateauLine.trim().split("\\s+");
-    
+
     if (parts.length != 2) {
       throw new ParseException("Plateau line invalid (expected \"X Y\"): \"" + plateauLine + "\"");
     }
@@ -89,7 +89,8 @@ public final class InputParser {
 
       return new Plateau(maxX, maxY);
     } catch (NumberFormatException e) {
-      throw new ParseException("Plateau line invalid (expected \"X Y\"): \"" + plateauLine + "\"", e);
+      throw new ParseException(
+          "Plateau line invalid (expected \"X Y\"): \"" + plateauLine + "\"", e);
     }
   }
 
@@ -101,13 +102,15 @@ public final class InputParser {
    * @return list of validated RoverPlan objects
    * @throws ParseException if rover specifications are invalid
    */
-  private static List<RoverPlan> parseRoverPlans(List<String> roverLines, Plateau plateau) throws ParseException {
+  private static List<RoverPlan> parseRoverPlans(List<String> roverLines, Plateau plateau)
+      throws ParseException {
     if (roverLines.size() % 2 != 0) {
-      throw new ParseException("Rover specifications must come in pairs (position line + instructions line)");
+      throw new ParseException(
+          "Rover specifications must come in pairs (position line + instructions line)");
     }
 
     List<RoverPlan> roverPlans = new ArrayList<>();
-    
+
     for (int i = 0; i < roverLines.size(); i += 2) {
       int roverIndex = (i / 2) + 1; // 1-indexed for error messages
       String positionLine = roverLines.get(i);
@@ -118,9 +121,18 @@ public final class InputParser {
 
       // Validate rover start position is within plateau bounds
       if (!plateau.contains(startPosition.x(), startPosition.y())) {
-        throw new ParseException("Rover #" + roverIndex + " start out of bounds: (" 
-            + startPosition.x() + "," + startPosition.y() + ") > plateau (" 
-            + plateau.maxX() + "," + plateau.maxY() + ")");
+        throw new ParseException(
+            "Rover #"
+                + roverIndex
+                + " start out of bounds: ("
+                + startPosition.x()
+                + ","
+                + startPosition.y()
+                + ") > plateau ("
+                + plateau.maxX()
+                + ","
+                + plateau.maxY()
+                + ")");
       }
 
       roverPlans.add(new RoverPlan(startPosition, instructions));
@@ -137,11 +149,17 @@ public final class InputParser {
    * @return validated Position object
    * @throws ParseException if position specification is invalid
    */
-  private static Position parseRoverPosition(String positionLine, int roverIndex) throws ParseException {
+  private static Position parseRoverPosition(String positionLine, int roverIndex)
+      throws ParseException {
     String[] parts = positionLine.trim().split("\\s+");
-    
+
     if (parts.length != 3) {
-      throw new ParseException("Rover #" + roverIndex + " position invalid (expected \"X Y HEADING\"): \"" + positionLine + "\"");
+      throw new ParseException(
+          "Rover #"
+              + roverIndex
+              + " position invalid (expected \"X Y HEADING\"): \""
+              + positionLine
+              + "\"");
     }
 
     try {
@@ -153,12 +171,24 @@ public final class InputParser {
       try {
         heading = Direction.valueOf(headingStr);
       } catch (IllegalArgumentException e) {
-        throw new ParseException("Rover #" + roverIndex + " invalid heading (expected N, E, S, or W): \"" + headingStr + "\"", e);
+        throw new ParseException(
+            "Rover #"
+                + roverIndex
+                + " invalid heading (expected N, E, S, or W): \""
+                + headingStr
+                + "\"",
+            e);
       }
 
       return new Position(x, y, heading);
     } catch (NumberFormatException e) {
-      throw new ParseException("Rover #" + roverIndex + " position invalid (expected \"X Y HEADING\"): \"" + positionLine + "\"", e);
+      throw new ParseException(
+          "Rover #"
+              + roverIndex
+              + " position invalid (expected \"X Y HEADING\"): \""
+              + positionLine
+              + "\"",
+          e);
     }
   }
 
@@ -170,16 +200,22 @@ public final class InputParser {
    * @return validated instruction string
    * @throws ParseException if instructions are invalid
    */
-  private static String parseInstructions(String instructionsLine, int roverIndex) throws ParseException {
+  private static String parseInstructions(String instructionsLine, int roverIndex)
+      throws ParseException {
     String instructions = instructionsLine.trim();
-    
+
     if (instructions.isEmpty()) {
       throw new ParseException("Rover #" + roverIndex + " instructions cannot be empty");
     }
 
     // Validate that instructions contain only L, R, M characters
     if (!instructions.matches("[LRM]+")) {
-      throw new ParseException("Rover #" + roverIndex + " invalid instructions (expected only L, R, M): \"" + instructions + "\"");
+      throw new ParseException(
+          "Rover #"
+              + roverIndex
+              + " invalid instructions (expected only L, R, M): \""
+              + instructions
+              + "\"");
     }
 
     return instructions;

@@ -10,7 +10,7 @@ class ParseExceptionTest {
   void constructor_withMessage_setsMessage() {
     String message = "Test error message";
     ParseException exception = new ParseException(message);
-    
+
     assertThat(exception.getMessage()).isEqualTo(message);
     assertThat(exception.getCause()).isNull();
   }
@@ -20,7 +20,7 @@ class ParseExceptionTest {
     String message = "Test error message";
     Throwable cause = new NumberFormatException("Invalid number");
     ParseException exception = new ParseException(message, cause);
-    
+
     assertThat(exception.getMessage()).isEqualTo(message);
     assertThat(exception.getCause()).isEqualTo(cause);
   }
@@ -28,7 +28,7 @@ class ParseExceptionTest {
   @Test
   void inheritance_extendsException() {
     ParseException exception = new ParseException("test");
-    
+
     assertThat(exception).isInstanceOf(Exception.class);
     assertThat(exception).isInstanceOf(Throwable.class);
   }
@@ -36,7 +36,7 @@ class ParseExceptionTest {
   @Test
   void constructor_withNullMessage_allowsNull() {
     ParseException exception = new ParseException(null);
-    
+
     assertThat(exception.getMessage()).isNull();
   }
 
@@ -44,7 +44,7 @@ class ParseExceptionTest {
   void constructor_withNullCause_allowsNull() {
     String message = "Test message";
     ParseException exception = new ParseException(message, null);
-    
+
     assertThat(exception.getMessage()).isEqualTo(message);
     assertThat(exception.getCause()).isNull();
   }
@@ -53,7 +53,7 @@ class ParseExceptionTest {
   void toString_containsClassName() {
     ParseException exception = new ParseException("test message");
     String toString = exception.toString();
-    
+
     assertThat(toString).contains("ParseException");
     assertThat(toString).contains("test message");
   }

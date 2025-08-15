@@ -38,9 +38,8 @@ class MissionTest {
   @Test
   void equals_withSameValues_returnsTrue() {
     Plateau plateau = new Plateau(5, 5);
-    List<RoverPlan> plans = Arrays.asList(
-        new RoverPlan(new Position(1, 2, Direction.N), "LMLMLMLMM")
-    );
+    List<RoverPlan> plans =
+        Arrays.asList(new RoverPlan(new Position(1, 2, Direction.N), "LMLMLMLMM"));
 
     Mission mission1 = new Mission(plateau, plans);
     Mission mission2 = new Mission(plateau, plans);
@@ -53,12 +52,10 @@ class MissionTest {
   void equals_withDifferentValues_returnsFalse() {
     Plateau plateau1 = new Plateau(5, 5);
     Plateau plateau2 = new Plateau(3, 3);
-    List<RoverPlan> plans1 = Arrays.asList(
-        new RoverPlan(new Position(1, 2, Direction.N), "LMLMLMLMM")
-    );
-    List<RoverPlan> plans2 = Arrays.asList(
-        new RoverPlan(new Position(2, 3, Direction.E), "MMRMMRMRRM")
-    );
+    List<RoverPlan> plans1 =
+        Arrays.asList(new RoverPlan(new Position(1, 2, Direction.N), "LMLMLMLMM"));
+    List<RoverPlan> plans2 =
+        Arrays.asList(new RoverPlan(new Position(2, 3, Direction.E), "MMRMMRMRRM"));
 
     Mission mission1 = new Mission(plateau1, plans1);
     Mission mission2 = new Mission(plateau2, plans2);

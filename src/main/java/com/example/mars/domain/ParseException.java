@@ -6,11 +6,12 @@ package com.example.mars.domain;
  * identify and correct input problems.
  *
  * <p>Common scenarios that trigger this exception include:
+ *
  * <ul>
- *   <li>Invalid plateau coordinates (non-numeric, negative values)</li>
- *   <li>Malformed rover position or heading specifications</li>
- *   <li>Invalid instruction sequences containing unsupported commands</li>
- *   <li>Rover starting positions outside the defined plateau boundaries</li>
+ *   <li>Invalid plateau coordinates (non-numeric, negative values)
+ *   <li>Malformed rover position or heading specifications
+ *   <li>Invalid instruction sequences containing unsupported commands
+ *   <li>Rover starting positions outside the defined plateau boundaries
  * </ul>
  */
 public class ParseException extends Exception {
